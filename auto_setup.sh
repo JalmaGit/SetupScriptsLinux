@@ -47,7 +47,7 @@ echo "______Pycharm Setup_______"
 cd ~
 DIRECTORY="/opt/pycharm-2024.3.1.1/"
 
-if [ -d "$DIRECTORY" ]; then
+if [ ! -d "$DIRECTORY" ]; then
     cd ~/Downloads
     wget "https://download.jetbrains.com/python/pycharm-professional-2024.3.1.1.tar.gz"
     sudo tar xzf pycharm-*.tar.gz -C /opt/
@@ -64,7 +64,7 @@ echo "______Clion Setup_________"
 cd ~
 DIRECTORY="/opt/clion-2024.3.1.1/bin"
 
-if [ -d "$DIRECTORY" ]; then
+if [ ! -d "$DIRECTORY" ]; then
 cd ~/Downloads
 wget "https://download.jetbrains.com/cpp/CLion-2024.3.1.1.tar.gz"
 sudo tar xvzf CLion-*.tar.gz -C /opt/
