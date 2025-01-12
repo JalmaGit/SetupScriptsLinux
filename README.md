@@ -15,3 +15,9 @@ The following software will be installed with this script. The list below displa
 | KiCad | Latest Realse | Uses KiCad's own repository, not ubuntu universe |
 | Discord | Latest Realse | n/a |
 | TeamSpeak3 | 3.6.2  | broken |
+
+Download this github as a zip, extract it and run the `auto_setup.sh` with this command:
+
+```
+source auto_setup.sh
+```
