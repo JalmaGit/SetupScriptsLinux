@@ -1,7 +1,7 @@
 # SetupScriptsLinux
 Linux Software Installation Script For Quicker Setup.
 
-The Following Main Software will be installed with this script:
+The following software will be installed with this script:
 
 | Software |  Version  | NOTE |
 |:-----|:--------:|------:|
