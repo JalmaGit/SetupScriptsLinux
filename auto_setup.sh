@@ -65,15 +65,14 @@ cd ~
 DIRECTORY="/opt/clion-2024.3.1.1/bin"
 
 if [ ! -d "$DIRECTORY" ]; then
-cd ~/Downloads
-wget "https://download.jetbrains.com/cpp/CLion-2024.3.1.1.tar.gz"
-sudo tar xvzf CLion-*.tar.gz -C /opt/
-sudo rm CLion-*.tar.gz
-echo $"\nexport PATH="/opt/clion-2024.3.1.1/bin:$PATH""
+    cd ~/Downloads
+    wget "https://download.jetbrains.com/cpp/CLion-2024.3.1.1.tar.gz"
+    sudo tar xvzf CLion-*.tar.gz -C /opt/
+    sudo rm CLion-*.tar.gz
+    echo $"\nexport PATH="/opt/clion-2024.3.1.1/bin:$PATH""
 else
     echo "CLion is already installed ${DIRECTORY}"
 fi
-
 
 
 echo "______VS Code Setup_______"
@@ -90,7 +89,7 @@ echo "______Conda Install_______"
 cd ~
 yes | sudo apt install libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
 curl -O https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
-yes | bash ~/Anaconda3-2024.10-1-Linux-x86_64.sh
+bash ~/Anaconda3-2024.10-1-Linux-x86_64.sh -b
 conda config --set auto_activate_base True
 
 
