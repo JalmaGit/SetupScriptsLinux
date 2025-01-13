@@ -25,18 +25,16 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 2
 
 echo "______Folder Setup________"
 
-cd ~/Documents
-
 DIRECTORY=~/Documents/GitHub
-if [ ! -d "$DIRECTORY"]; then
-    mkdir GitHub
+if [ ! -d "$DIRECTORY" ]; then
+    mkdir ~/Documents/GitHub
 else 
     echo "Github folder already exists"
 fi
 
 DIRECTORY=~/Documents/Local
-if [ ! -d "$DIRECTORY"]; then
-    mkdir Local
+if [ ! -d "$DIRECTORY" ]; then
+    mkdir ~/Documents/Local
 else
     echo "Local folder already exists"
 fi
@@ -45,10 +43,9 @@ fi
 
 echo "______KiCad Install_______"
 
-cd ~/Documents
 DIRECTORY=~/Documents/KiCad
-if [ ! -d "$DIRECTORY"]; then
-    mkdir KiCad
+if [ ! -d "$DIRECTORY" ]; then
+    mkdir ~/Documents/KiCad
 else
     echo "KiCad folder already created"
 fi
@@ -98,7 +95,7 @@ if [ ! -d "$DIRECTORY" ]; then
     wget "https://download.jetbrains.com/python/pycharm-professional-2024.3.1.1.tar.gz"
     sudo tar xzf pycharm-*.tar.gz -C /opt/
     sudo rm pycharm-*.tar.gz
-    echo $"\nexport PATH="/opt/pycharm-2024.3.1.1/bin:$PATH"" >> ~/.bashrc
+    echo $"\n export PATH="/opt/pycharm-2024.3.1.1/bin:$PATH"" >> ~/.bashrc
 else
     echo "Pycharm is already installed ${DIRECTORY}"
 fi
@@ -115,7 +112,7 @@ if [ ! -d "$DIRECTORY" ]; then
     wget "https://download.jetbrains.com/cpp/CLion-2024.3.1.1.tar.gz"
     sudo tar xvzf CLion-*.tar.gz -C /opt/
     sudo rm CLion-*.tar.gz
-    echo $"\nexport PATH="/opt/clion-2024.3.1.1/bin:$PATH"" >> ~/.bashrc
+    echo $"\n export PATH="/opt/clion-2024.3.1.1/bin:$PATH"" >> ~/.bashrc
 else
     echo "CLion is already installed ${DIRECTORY}"
 fi
