@@ -170,6 +170,7 @@ if [ ! -d "$DIRECTORY" ]; then
     sudo rm TeamSpeak3-Client-linux_amd64-3.6.2.run
 else
     echo "Teamspeak 3 client already installed"
+fi
 
 
 

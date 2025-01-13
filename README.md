@@ -7,8 +7,8 @@ The following software will be installed with this script. The list below displa
 |:-----|:--------:|------:|
 | gcc  | 14.2.0 and 13.3.0 | 14.2 is set as default|
 | CMake   |  3.31.3  | Uses CMake's own repository, not ubuntu universe |
-| Pycharm   | 3.1.1 | broken |
-| CLion  | 3.1.1 | broken |
+| Pycharm   | 3.1.1 | n/a |
+| CLion  | 3.1.1 | n/a |
 | VSCode | Latest Realese | n/a |
 | Anaconda | 2024.10-1 |n/a |
 | Steam | Latest Realse | n/a |
