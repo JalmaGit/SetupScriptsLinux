@@ -11,10 +11,10 @@ The following software will be installed with this script. The list below displa
 | CLion  | 3.1.1 | n/a |
 | VSCode | Latest Realese | n/a |
 | Anaconda | 2024.10-1 |n/a |
-| Steam | Latest Realse | n/a |
 | KiCad | Latest Realse | Uses KiCad's own repository, not ubuntu universe |
 | Discord | Latest Realse | n/a |
-| TeamSpeak3 | 3.6.2  | broken |
+| TeamSpeak3 | n/a  | NOT IMPLEMENTED |
+| Steam | n/a | NOT IMPLEMENTED |
 
 Download this github as a zip, extract it and run the `auto_setup.sh` with this command:
 
