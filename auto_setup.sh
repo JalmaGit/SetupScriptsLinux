@@ -95,7 +95,7 @@ if [ ! -d "$DIRECTORY" ]; then
     wget "https://download.jetbrains.com/python/pycharm-professional-2024.3.1.1.tar.gz"
     sudo tar xzf pycharm-*.tar.gz -C /opt/
     sudo rm pycharm-*.tar.gz
-    echo $"\n export PATH="/opt/pycharm-2024.3.1.1/bin:$PATH"" >> ~/.bashrc
+    echo -e "\nexport PATH=\"/opt/pycharm-2024.3.1.1/bin:\$PATH\"" >> ~/.bashrc
 else
     echo "Pycharm is already installed ${DIRECTORY}"
 fi
@@ -112,7 +112,7 @@ if [ ! -d "$DIRECTORY" ]; then
     wget "https://download.jetbrains.com/cpp/CLion-2024.3.1.1.tar.gz"
     sudo tar xvzf CLion-*.tar.gz -C /opt/
     sudo rm CLion-*.tar.gz
-    echo $"\n export PATH="/opt/clion-2024.3.1.1/bin:$PATH"" >> ~/.bashrc
+    echo -e "\nexport PATH=\"/opt/clion-2024.3.1.1/bin:\$PATH\"" >> ~/.bashrc
 else
     echo "CLion is already installed ${DIRECTORY}"
 fi
@@ -156,31 +156,3 @@ cd ~/Downloads
 wget 'https://discord.com/api/download?platform=linux&format=deb' -O discord.deb
 sudo apt install ./discord.deb
 sudo rm discord.deb
-
-
-
-echo "______TeamSpeak3 Setup_____"
-
-cd ~
-DIRECTORY=TeamSpeak3-Client-linux_amd64/
-if [ ! -d "$DIRECTORY" ]; then
-    wget "https://files.teamspeak-services.com/releases/client/3.6.2/TeamSpeak3-Client-linux_amd64-3.6.2.run"
-    chmod +x TeamSpeak3-Client-linux_amd64-3.6.2.run
-    yes | sudo ./TeamSpeak3-Client-linux_amd64-3.6.2.run
-    sudo rm TeamSpeak3-Client-linux_amd64-3.6.2.run
-else
-    echo "Teamspeak 3 client already installed"
-fi
-
-
-
-echo "______Steam Setup__________"
-
-if ! [ -x "$(command -v steam)" ]; then
-    cd ~/Downloads
-    wget https://cdn.fastly.steamstatic.com/client/installer/steam.deb -O steam.deb
-    sudo apt install ./steam.deb
-    sudo rm steam.deb
-else
-    echo "steam is already installed"
-fi
