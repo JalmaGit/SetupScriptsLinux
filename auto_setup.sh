@@ -91,7 +91,7 @@ if [ ! -d "$DIRECTORY" ]; then
     wget "https://download.jetbrains.com/python/pycharm-professional-2024.3.1.1.tar.gz"
     sudo tar xzf pycharm-*.tar.gz -C /opt/
     sudo rm pycharm-*.tar.gz
-    echo $"\n export PATH="/opt/pycharm-2024.3.1.1/bin:$PATH"" >> ~/.bashrc
+    echo -e "\nexport PATH=\"/opt/pycharm-2024.3.1.1/bin:\$PATH\"" >> ~/.bashrc
 else
     echo "Pycharm is already installed ${DIRECTORY}"
 fi
@@ -106,7 +106,7 @@ if [ ! -d "$DIRECTORY" ]; then
     wget "https://download.jetbrains.com/cpp/CLion-2024.3.1.1.tar.gz"
     sudo tar xvzf CLion-*.tar.gz -C /opt/
     sudo rm CLion-*.tar.gz
-    echo $"\n export PATH="/opt/clion-2024.3.1.1/bin:$PATH"" >> ~/.bashrc
+    echo -e "\nexport PATH=\"/opt/clion-2024.3.1.1/bin:\$PATH\"" >> ~/.bashrc
 else
     echo "CLion is already installed ${DIRECTORY}"
 fi
