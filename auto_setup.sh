@@ -118,7 +118,7 @@ echo "______VS Code Setup________"
 if ! [ -x "$(command -v code)" ]; then
     echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
     wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O vscode.deb
-    sudo apt install ./vscode.deb
+    yes | sudo apt install ./vscode.deb
     sudo rm vscode.deb
 else
     echo "Visual Studio Code is already installed"
@@ -156,7 +156,7 @@ echo "______Steam Setup__________"
 
 if ! [ -x "$(command -v steam)" ]; then
     wget https://cdn.fastly.steamstatic.com/client/installer/steam.deb -O steam.deb
-    sudo apt install ./steam.deb
+    yes | sudo apt install ./steam.deb
     sudo rm steam.deb
 else
     echo "steam is already installed"
