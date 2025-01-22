@@ -12,7 +12,8 @@ yes | sudo apt upgrade
 sudo apt install curl -y
 sudo apt install wget -y
 sudo apt install git -y
-sudo apt install build-essentials -y
+sudo apt install build-essential -y
+sudo apt install unzip -y
 
 sudo apt install gcc -y
 sudo apt install gcc-13 -y
