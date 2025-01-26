@@ -84,7 +84,7 @@ if [ ! -d "$DIRECTORY" ]; then
     wget "https://download.jetbrains.com/cpp/CLion-2024.3.2-aarch64.tar.gz"
     sudo tar xvzf CLion-*.tar.gz -C /opt/
     sudo rm CLion-*.tar.gz
-    echo -e "\nexport PATH=\"/opt/clion-2024.3.1.1/bin:\$PATH\"" >> ~/.bashrc
+    echo -e "\nexport PATH=\"/opt/clion-2024.3.2/bin:\$PATH\"" >> ~/.bashrc
 else
     echo "CLion is already installed ${DIRECTORY}"
 fi
