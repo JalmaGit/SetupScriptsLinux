@@ -5,7 +5,7 @@ The following software will be installed with this script. The list below displa
 
 | Software/Tool |  Version  | NOTE |
 |:-----|:--------:|------:|
-| gcc  | 14.2, 13.3 or 12.3 | 14.2 is the default 24.04, \n 12.3 is the default on 22.04 due to only supporting up to 12.3 |
+| gcc  | 14.2, 13.3 or 12.3 | 14.2 is the default 24.04, 12.3 is the default on 22.04 due to only supporting up to 12.3 |
 | CMake   |  3.31.3  | Uses CMake's own repository, not ubuntu universe |
 | Pycharm   | 3.1.1 | n/a |
 | CLion  | 3.1.1 | n/a |
