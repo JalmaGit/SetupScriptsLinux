@@ -148,8 +148,6 @@ wget 'https://discord.com/api/download?platform=linux&format=deb' -O discord.deb
 sudo apt install ./discord.deb
 sudo rm discord.deb
 
-
-
 echo "______Steam Setup__________"
 
 if ! [ -x "$(command -v steam)" ]; then

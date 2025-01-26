@@ -29,3 +29,6 @@ Ubuntu 22.04 Jammy:
 ```
 source auto_setup_jammy.sh
 ```
+
+TODO:
+- Make `auto_setup.sh` into the main installer, user will be able to chose from there/ it will auto detect and select the correct script to run.
