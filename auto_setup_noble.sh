@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Hello Master, Welcome To Your New Linux Installation"
+echo "Hello, Welcome To Your New Linux Installation"
 echo "I Will Install Your Programs For You"
 
 

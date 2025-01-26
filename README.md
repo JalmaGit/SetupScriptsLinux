@@ -5,7 +5,7 @@ The following software will be installed with this script. The list below displa
 
 | Software/Tool |  Version  | NOTE |
 |:-----|:--------:|------:|
-| gcc  | 14.2.0 and 13.3.0 | 14.2 is set as default|
+| gcc  | 14.2, 13.3 or 12.3 | 14.2 is the default 24.04, \n 12.3 is the default on 22.04 due to only supporting up to 12.3 |
 | CMake   |  3.31.3  | Uses CMake's own repository, not ubuntu universe |
 | Pycharm   | 3.1.1 | n/a |
 | CLion  | 3.1.1 | n/a |
@@ -16,8 +16,16 @@ The following software will be installed with this script. The list below displa
 | TeamSpeak3 | n/a  | NOT IMPLEMENTED |
 | Steam | n/a | NOT IMPLEMENTED |
 
-Download this github as a zip, extract it and run the `auto_setup.sh` with this command:
+Download this github as a zip, extract it and run with either of these commands:
+
+Ubuntu 24.04 Noble: 
 
 ```
-source auto_setup.sh
+source auto_setup_noble.sh
+```
+
+Ubuntu 22.04 Jammy:
+
+```
+source auto_setup_jammy.sh
 ```
