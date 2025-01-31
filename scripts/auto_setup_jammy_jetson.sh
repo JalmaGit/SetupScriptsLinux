@@ -84,7 +84,7 @@ if [ ! -d "$DIRECTORY" ]; then
     source ~/anaconda3/bin/activate
     conda init --all
     conda config --set auto_activate_base True
-    conda deactivate
+    yes | conda install -c conda-forge glib gstreamer gst-plugins-base gtk3 pkg-config
     sudo rm Anaconda3-2024.10-1-Linux-aarch64.sh
 else
     echo "Conda is already installed"
@@ -104,14 +104,13 @@ if [ ! -d "$DIRECTORY" ]; then
     cd opencv
 
     mkdir -p build && cd build
-    cmake -D PYTHON3_EXECUTABLE=$HOME/anaconda3/bin/python -D PYTHON3_LIBRARY=$HOME/anaconda3/lib/python3.12 -D OPENCV_ENABLE_NONFREE=ON -D PYTHON3_INCLUDE_DIR=$HOME/anaconda3/include/python3.12 -D PYTHON3_PACKAGES_PATH=$HOME/anaconda3/lib/python3.12/site-packages -D BUILD_opencv_python2=OFF -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=ON -D INSTALL_PYTHON_EXAMPLES=OFF -D INSTALL_C_EXAMPLES=OFF -D OPENCV_ENABLE_NONFREE=ON -D BUILD_EXAMPLES=OFF ../
+    cmake -D CMAKE_BUILD_TYPE=Release -D PYTHON3_EXECUTABLE=~/anaconda3/bin/python -D PYTHON3_LIBRARY=~/anaconda3/lib/python3.12 -D PYTHON3_INCLUDE_DIR=~/anaconda3/include/python3.12 -D PYTHON3_PACKAGES_PATH=~/anaconda3/lib/python3.12/site-packages -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=ON -D INSTALL_PYTHON_EXAMPLES=OFF -D INSTALL_C_EXAMPLES=OFF -D OPENCV_ENABLE_NONFREE=ON -D BUILD_EXAMPLES=OFF ../
 
     make -j6
 
     sudo make install
     
     cd ~/
-    conda activate
 else
     echo "OpenCV is already installed"
 fi
