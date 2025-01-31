@@ -73,7 +73,6 @@ else
 fi
 
 
-
 echo "______Conda Install________"
 
 DIRECTORY=~/anaconda3
@@ -85,12 +84,11 @@ if [ ! -d "$DIRECTORY" ]; then
     source ~/anaconda3/bin/activate
     conda init --all
     conda config --set auto_activate_base True
+    conda deactivate
     sudo rm Anaconda3-2024.10-1-Linux-aarch64.sh
 else
     echo "Conda is already installed"
 fi
-
-
 
 echo "______OpenCV Install________"
 DIRECTORY="~/Libs/opencv"
@@ -107,11 +105,13 @@ if [ ! -d "$DIRECTORY" ]; then
 
     mkdir -p build && cd build
     cmake -D PYTHON3_EXECUTABLE=$HOME/anaconda3/bin/python -D PYTHON3_LIBRARY=$HOME/anaconda3/lib/python3.12 -D OPENCV_ENABLE_NONFREE=ON ../
+
     make -j4
 
     sudo make install
     
     cd ~/
+    conda activate
 else
     echo "OpenCV is already installed"
 fi
