@@ -104,9 +104,9 @@ if [ ! -d "$DIRECTORY" ]; then
     cd opencv
 
     mkdir -p build && cd build
-    cmake -D PYTHON3_EXECUTABLE=$HOME/anaconda3/bin/python -D PYTHON3_LIBRARY=$HOME/anaconda3/lib/python3.12 -D OPENCV_ENABLE_NONFREE=ON ../
+    cmake -D PYTHON3_EXECUTABLE=$HOME/anaconda3/bin/python -D PYTHON3_LIBRARY=$HOME/anaconda3/lib/python3.12 -D OPENCV_ENABLE_NONFREE=ON -D PYTHON3_INCLUDE_DIR=$HOME/anaconda3/include/python3.12 -D PYTHON3_PACKAGES_PATH=$HOME/anaconda3/lib/python3.12/site-packages -D BUILD_opencv_python2=OFF -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=ON -D INSTALL_PYTHON_EXAMPLES=OFF -D INSTALL_C_EXAMPLES=OFF -D OPENCV_ENABLE_NONFREE=ON -D BUILD_EXAMPLES=OFF ../
 
-    make -j4
+    make -j6
 
     sudo make install
     
