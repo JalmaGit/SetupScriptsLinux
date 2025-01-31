@@ -15,6 +15,16 @@ sudo apt install git -y
 sudo apt install build-essential -y
 sudo apt install unzip -y
 
+yes | sudo apt-get install python3-dev python3-numpy
+yes | sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
+yes | sudo apt-get install libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev
+yes | sudo apt-get install libgtk-3-dev
+yes | sudo apt-get install libpng-dev
+yes | sudo apt-get install libjpeg-dev
+yes | sudo apt-get install libopenexr-dev
+yes | sudo apt-get install libtiff-dev
+yes | sudo apt-get install libwebp-dev
+
 sudo apt install gcc -y
 sudo apt install gcc-12 -y
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 1
@@ -32,6 +42,9 @@ fi
 DIRECTORY=~/Documents/Local
 if [ ! -d "$DIRECTORY" ]; then
     mkdir ~/Documents/Local
+    mkdir ~/Documents/Local/PythonProjects
+    mkdir ~/Documents/Local/PythonEnvs
+    mkdir ~/Documents/Local/Other
 else
     echo "Local folder already exists"
 fi
@@ -59,6 +72,63 @@ else
     echo "cmake is already installed"
 fi
 
+
+
+echo "______Conda Install________"
+
+DIRECTORY=~/anaconda3
+
+if [ ! -d "$DIRECTORY" ]; then
+    yes | sudo apt install libgl1-mesa-glx libegl1-mesa libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
+    curl -O https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-aarch64.sh
+    bash ~/Anaconda3-2024.10-1-Linux-aarch64.sh -b
+    source ~/anaconda3/bin/activate
+    conda init --all
+    conda config --set auto_activate_base True
+    sudo rm Anaconda3-2024.10-1-Linux-aarch64.sh
+else
+    echo "Conda is already installed"
+fi
+
+
+
+echo "______OpenCV Install________"
+DIRECTORY="~/Libs/opencv"
+
+if [ ! -d "$DIRECTORY" ]; then
+    mkdir ~/Libs/
+    cd ~/Libs
+    
+    wget -O opencv.zip https://github.com/opencv/opencv/archive/refs/tags/4.10.0.zip
+    unzip opencv.zip
+    mv opencv-4.10.0/ opencv
+
+    cd opencv
+
+    mkdir -p build && cd build
+    cmake -D PYTHON3_EXECUTABLE=$HOME/anaconda3/bin/python \
+          -D PYTHON3_LIBRARY=$HOME/anaconda3/lib/python3.12 \ 
+           ../
+    make -j4
+
+    sudo make install
+    
+    cd ~/
+else
+    echo "OpenCV is already installed"
+fi
+
+
+
+echo "______RealSense D435 Setup________"
+if ! [ -x "$(command -v realsense-viewer)" ]; then
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
+    sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
+    sudo apt-get install librealsense2-utils
+    sudo apt-get install librealsense2-dev
+else
+    echo "RealSense is already installed"
+fi
 
 
 echo "______Pycharm Setup_______"
@@ -100,22 +170,4 @@ if ! [ -x "$(command -v code)" ]; then
     sudo rm vscode.deb
 else
     echo "Visual Studio Code is already installed"
-fi
-
-
-
-echo "______Conda Install________"
-
-DIRECTORY=~/anaconda3
-
-if [ ! -d "$DIRECTORY" ]; then
-    yes | sudo apt install libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
-    curl -O https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-aarch64.sh
-    bash ~/Anaconda3-2024.10-1-Linux-aarch64.sh -b
-    source ~/anaconda3/bin/activate
-    conda init --all
-    conda config --set auto_activate_base True
-    sudo rm Anaconda3-2024.10-1-Linux-aarch64.sh
-else
-    echo "Conda is already installed"
 fi
