@@ -7,15 +7,16 @@ echo "I Will Install Your Programs For You"
 echo "______Installing Required Tools_______"
 
 sudo apt update
-yes | sudo apt upgrade
+sudo apt upgrade -y
 
 sudo apt install curl -y
 sudo apt install wget -y
 sudo apt install git -y
 sudo apt install build-essential -y
 sudo apt install unzip -y
+sudo apt install gnome-tweaks -y
 
-yes | sudo apt-get install python3-dev python3-numpy
+sudo apt-get install python3-dev -y python3-numpy -y
 yes | sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
 yes | sudo apt-get install libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev
 yes | sudo apt-get install libgtk-3-dev
@@ -24,6 +25,8 @@ yes | sudo apt-get install libjpeg-dev
 yes | sudo apt-get install libopenexr-dev
 yes | sudo apt-get install libtiff-dev
 yes | sudo apt-get install libwebp-dev
+
+sudo apt install ninja-build -y
 
 sudo apt install gcc -y
 sudo apt install gcc-12 -y
@@ -43,8 +46,8 @@ DIRECTORY=~/Documents/Local
 if [ ! -d "$DIRECTORY" ]; then
     mkdir ~/Documents/Local
     mkdir ~/Documents/Local/PythonProjects
-    mkdir ~/Documents/Local/PythonEnvs
-    mkdir ~/Documents/Local/Other
+    mkdir ~/Documents/Local/ros2_ws
+    mkdir ~/Documents/Local/ros2_ws/src
 else
     echo "Local folder already exists"
 fi
@@ -73,22 +76,6 @@ else
 fi
 
 
-echo "______Conda Install________"
-
-DIRECTORY=~/anaconda3
-
-if [ ! -d "$DIRECTORY" ]; then
-    yes | sudo apt install libgl1-mesa-glx libegl1-mesa libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
-    curl -O https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-aarch64.sh
-    bash ~/Anaconda3-2024.10-1-Linux-aarch64.sh -b
-    source ~/anaconda3/bin/activate
-    conda init --all
-    conda config --set auto_activate_base True
-    yes | conda install -c conda-forge glib gstreamer gst-plugins-base gtk3 pkg-config
-    sudo rm Anaconda3-2024.10-1-Linux-aarch64.sh
-else
-    echo "Conda is already installed"
-fi
 
 echo "______OpenCV Install________"
 DIRECTORY="~/Libs/opencv"
@@ -104,7 +91,7 @@ if [ ! -d "$DIRECTORY" ]; then
     cd opencv
 
     mkdir -p build && cd build
-    cmake -D CMAKE_BUILD_TYPE=Release -D PYTHON3_EXECUTABLE=~/anaconda3/bin/python -D PYTHON3_LIBRARY=~/anaconda3/lib/python3.12 -D PYTHON3_INCLUDE_DIR=~/anaconda3/include/python3.12 -D PYTHON3_PACKAGES_PATH=~/anaconda3/lib/python3.12/site-packages -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=ON -D INSTALL_PYTHON_EXAMPLES=OFF -D INSTALL_C_EXAMPLES=OFF -D OPENCV_ENABLE_NONFREE=ON -D BUILD_EXAMPLES=OFF ../
+    cmake -D CMAKE_BUILD_TYPE=Release -D BUILD_EXAMPLES=OFF ../
 
     make -j6
 
@@ -116,13 +103,66 @@ else
 fi
 
 
+echo "______ROS2 Install_______"
+DIRECTORY="/opt/ros"
+
+if [ ! -d "$DIRECTORY" ]; then
+
+    locale  # check for UTF-8
+
+    sudo apt update && sudo apt install locales -y
+    sudo locale-gen en_US en_US.UTF-8
+    sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+    export LANG=en_US.UTF-8
+
+    locale  # verify settings
+
+    sudo apt install software-properties-common -y
+    sudo add-apt-repository universe -y
+
+    sudo apt update && sudo apt install curl -y
+    sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+    sudo apt update
+
+    sudo apt upgrade -y
+
+    sudo apt install ros-humble-desktop -y
+    sudo apt install ros-dev-tools
+
+    echo -e "\nsource /opt/ros/humble/setup.bash" >> ~/.bashrc
+else 
+    echo "ROS2 is already installed"
+fi
+
+
+echo "______VCPKG Install_________"
+DIRECTORY="~/Libs/vcpkg"
+
+if [ ! -d "$DIRECTORY" ]; then
+    cd ~/Libs
+
+    git clone https://github.com/microsoft/vcpkg.git
+
+    cd vcpkg && ./bootstrap-vcpkg.sh
+
+    echo -e "\nexport VCPKG_ROOT=\$HOME/Libs/vcpkg" >> ~/.bashrc
+    echo -e "\nexport PATH=\$VCPKG_ROOT:\$PATH" >> ~/.bashrc
+    cd ~/
+else
+    echo "vcpkg already installed"
+fi
+
+
 
 echo "______RealSense D435 Setup________"
 if ! [ -x "$(command -v realsense-viewer)" ]; then
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
     sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
-    sudo apt-get install librealsense2-utils
-    sudo apt-get install librealsense2-dev
+    sudo apt-get install librealsense2-utils -y
+    sudo apt-get install librealsense2-dev -y
 else
     echo "RealSense is already installed"
 fi
@@ -145,7 +185,7 @@ fi
 
 echo "______Clion Setup_________"
 
-DIRECTORY="/opt/clion-2024.3.1.1/bin"
+DIRECTORY="/opt/clion-2024.3.2/bin"
 
 if [ ! -d "$DIRECTORY" ]; then
     wget "https://download.jetbrains.com/cpp/CLion-2024.3.2-aarch64.tar.gz"
@@ -168,3 +208,15 @@ if ! [ -x "$(command -v code)" ]; then
 else
     echo "Visual Studio Code is already installed"
 fi
+
+
+
+echo "_______________________________________________"
+echo "|                                             |"
+echo "|             RESTART TERMINAL                |"
+echo "|                   FOR                       |"
+echo "|                 CHANGES                     |"
+echo "|                   TO                        |"
+echo "|             COME INTO EFFECT                |"
+echo "|                                             |"
+echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"

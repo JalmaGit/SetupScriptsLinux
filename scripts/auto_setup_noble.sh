@@ -162,3 +162,14 @@ if ! [ -x "$(command -v steam)" ]; then
 else
     echo "steam is already installed"
 fi
+
+
+echo "_______________________________________________"
+echo "|                                             |"
+echo "|             RESTART TERMINAL                |"
+echo "|                   FOR                       |"
+echo "|                 CHANGES                     |"
+echo "|                   TO                        |"
+echo "|             COME INTO EFFECT                |"
+echo "|                                             |"
+echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
