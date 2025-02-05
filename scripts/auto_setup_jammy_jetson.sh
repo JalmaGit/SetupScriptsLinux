@@ -1,4 +1,5 @@
 #!/bin/bash
+selection="$1"
 
 echo "Hello, Welcome To Your New Linux Installation"
 echo "I Will Install Your Programs For You"
@@ -16,7 +17,7 @@ sudo apt install build-essential -y
 sudo apt install unzip -y
 sudo apt install gnome-tweaks -y
 
-sudo apt-get install python3-dev -y python3-numpy -y
+sudo apt-get install python3-dev -y python3-numpy -y python3-pip -y
 yes | sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
 yes | sudo apt-get install libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev
 yes | sudo apt-get install libgtk-3-dev
@@ -28,6 +29,7 @@ yes | sudo apt-get install libwebp-dev
 
 sudo apt install ninja-build -y
 
+sudo apt install gcc -y
 sudo apt install gcc -y
 sudo apt install gcc-12 -y
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 1
@@ -55,7 +57,7 @@ fi
 
 echo "______CMake Install_______"
 
-if ! [ -x "$(command -v cmake)" ]; then
+if [ ! -x "$(command -v cmake)" ]; then
     sudo apt-get update
     sudo apt-get install ca-certificates gpg wget
 
@@ -158,7 +160,7 @@ fi
 
 
 echo "______RealSense D435 Setup________"
-if ! [ -x "$(command -v realsense-viewer)" ]; then
+if [ ! -x "$(command -v realsense-viewer)" ]; then
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
     sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
     sudo apt-get install librealsense2-utils -y
@@ -197,10 +199,9 @@ else
 fi
 
 
-
 echo "______VS Code Setup________"
 
-if ! [ -x "$(command -v code)" ]; then
+if [ ! -x "$(command -v code)" ]; then
     echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
     wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64" -O vscode.deb
     yes | sudo apt install ./vscode.deb
@@ -209,6 +210,17 @@ else
     echo "Visual Studio Code is already installed"
 fi
 
+
+echo "______Discord Setup________"
+
+if [ "$selection" != "3" ]; then
+
+    wget 'https://discord.com/api/download?platform=linux&format=deb' -O discord.deb
+    sudo apt install ./discord.deb
+    sudo rm discord.deb
+else
+    echo "Discord won't be installed"
+fi
 
 
 echo "_______________________________________________"
