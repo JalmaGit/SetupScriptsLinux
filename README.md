@@ -16,7 +16,7 @@ The following software will be installed with this script. The list below displa
 | Anaconda | 2024.10-1 |n/a |
 | KiCad | Latest Release | Uses KiCad's own repository, not ubuntu universe |
 | Discord | Latest Release | n/a |
-| Steam | n/a | Latest Release|
+| Steam | Latest Release | n/a|
 | TeamSpeak3 | n/a  | NOT IMPLEMENTED |
 
 Download this github as a zip, extract it and run this command in the Terminal:
