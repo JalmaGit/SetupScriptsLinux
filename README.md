@@ -7,7 +7,7 @@ The following software will be installed with this script. The list below displa
 |:-----|:--------:|------:|
 | GCC  | 14.2, 13.3 or 12.3 | 14.2 is the default 24.04, 12.3 is the default on 22.04 due to only supporting up to 12.3 |
 | CMake   |  3.31.3  | Uses CMake's own repository, not ubuntu universe |
-| OpenCV | 4.10.0 | Built from Source, with complete install linked to Anaconda environment |
+| OpenCV | 4.10.0 | Built from Source, when full install is selected, will link to Anaconda environment |
 | VCPKG | Latest Release | n/a |
 | ROS2 | Humble or Jazzy | Humble for 22.04, Jazzy for 24.04 |
 | Pycharm   | 3.1.1 | n/a |
