@@ -14,6 +14,7 @@ The following software will be installed with this script. The list below displa
 | CLion  | 3.1.1 | n/a |
 | VSCode | Latest Release | n/a |
 | Anaconda | 2024.10-1 |n/a |
+| Arduino IDE | Latest Available Release | Using pre-included from ubuntu repository |
 | KiCad | Latest Release | Uses KiCad's own repository, not ubuntu universe |
 | Discord | Latest Release | n/a |
 | Steam | n/a | Latest Release|

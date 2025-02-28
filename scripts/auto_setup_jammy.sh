@@ -10,51 +10,21 @@ echo "______Installing Required Tools_______"
 
 sudo apt update
 sudo apt upgrade -y
+sudo apt install zlib1g -y
 
-sudo apt install curl -y
-sudo apt install wget -y
-sudo apt install git -y
-sudo apt install build-essential -y
-sudo apt install unzip -y
-sudo apt install gnome-tweaks -y
+if lspci | grep -qi nvidia; then
+    echo "Nvidia GPU detected. Proceeding with CUDA init..."
+    echo >> ~/.bashrc
+    cat << 'EOF' >> ~/.bashrc
 
-sudo apt-get install python3-dev -y python3-numpy -y python3-pip -y
-yes | sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
-yes | sudo apt-get install libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev
-yes | sudo apt-get install libgtk-3-dev
-yes | sudo apt-get install libpng-dev
-yes | sudo apt-get install libjpeg-dev
-yes | sudo apt-get install libopenexr-dev
-yes | sudo apt-get install libtiff-dev
-yes | sudo apt-get install libwebp-dev
-
-sudo apt install ninja-build -y
-
-sudo apt install gcc -y
-sudo apt install gcc-12 -y
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 1
-
-
-echo "______Folder Setup________"
-
-DIRECTORY=~/Documents/GitHub
-if [ ! -d "$DIRECTORY" ]; then
-    mkdir ~/Documents/GitHub
-else 
-    echo "Github folder already exists"
-fi
-
-DIRECTORY=~/Documents/Local
-if [ ! -d "$DIRECTORY" ]; then
-    mkdir ~/Documents/Local
-    mkdir ~/Documents/Local/PythonProjects
-    mkdir ~/Documents/Local/ros2_ws
-    mkdir ~/Documents/Local/ros2_ws/src
+export PATH=/usr/local/cuda-12.8/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-12.8/lib64\
+                         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+EOF
+    sudo apt-get -y install cudnn9-cuda-12
 else
-    echo "Local folder already exists"
+    echo "No Nvidia GPU detected"
 fi
-
-
 
 echo "______KiCad Install_______"
 
@@ -78,31 +48,6 @@ if [ "$selection" = "1" ]; then
 fi
 
 
-
-echo "______CMake Install_______"
-
-if [ ! -x "$(command -v cmake)" ]; then
-    sudo apt-get update
-    sudo apt-get install ca-certificates gpg wget
-
-    test -f /usr/share/doc/kitware-archive-keyring/copyright ||
-    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-
-    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
-    sudo apt-get update
-
-    test -f /usr/share/doc/kitware-archive-keyring/copyright ||
-    sudo rm /usr/share/keyrings/kitware-archive-keyring.gpg
-
-    sudo apt-get install kitware-archive-keyring
-
-    yes | sudo apt-get install cmake
-else
-    echo "cmake is already installed"
-fi
-
-
-
 echo "______Pycharm Setup_______"
 
 DIRECTORY="/opt/pycharm-2024.3.1.1/"
@@ -115,7 +60,6 @@ if [ ! -d "$DIRECTORY" ] && [ "$selection" != "3" ]; then
 else
     echo "Pycharm is already installed ${DIRECTORY}"
 fi
-
 
 
 echo "______Clion Setup_________"
@@ -132,7 +76,6 @@ else
 fi
 
 
-
 echo "______VS Code Setup________"
 
 if ! [ -x "$(command -v code)" ]; then
@@ -145,41 +88,23 @@ else
 fi
 
 
-
-echo "______Conda Install________"
-
-DIRECTORY=~/anaconda3
-
-if [ ! -d "$DIRECTORY" ] && [ "$selection" = "1"  ]; then
-    yes | sudo apt install libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
-    curl -O https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
-    bash ~/Anaconda3-2024.10-1-Linux-x86_64.sh -b
-    source ~/anaconda3/bin/activate
-    conda init --all
-    conda config --set auto_activate_base True
-    sudo rm Anaconda3-2024.10-1-Linux-x86_64.sh
-else
-    echo "Conda is already installed"
-fi
-
-
 echo "______OpenCV Install________"
 DIRECTORY="~/Libs/opencv"
 
 if [ ! -d "$DIRECTORY" ]; then
     mkdir ~/Libs/
-    cd ~/Libs
+    mkdir ~/Libs/opencv
+    cd ~/Libs/opencv
     
     wget -O opencv.zip https://github.com/opencv/opencv/archive/refs/tags/4.10.0.zip
+    wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.10.0.zip
     unzip opencv.zip
-    mv opencv-4.10.0/ opencv
-
-    cd opencv
+    unzip opencv_contrib.zip
 
     mkdir -p build && cd build
 
-    if [ "$selection" = "1" ]; then
-        cmake -D CMAKE_BUILD_TYPE=Release -D PYTHON3_EXECUTABLE=~/anaconda3/bin/python -D PYTHON3_LIBRARY=~/anaconda3/lib/python3.12 -D PYTHON3_INCLUDE_DIR=~/anaconda3/include/python3.12 -D PYTHON3_PACKAGES_PATH=~/anaconda3/lib/python3.12/site-packages -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=ON -D INSTALL_PYTHON_EXAMPLES=OFF -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=OFF ../
+    if lspci | grep -qi nvidia; then
+        cmake -D WITH_CUDA=ON -D WITH_CUDNN=ON -D CUDNN_LIBRARY=/usr/lib/x86_64-linux-gnu/libcudnn.so.9.7.1 -D CUDNN_INCLUDE_DIR=/usr/include -D WITH_GSTREAMER=ON -D WITH_LIBV4L=ON -D CMAKE_BUILD_TYPE=Release -D  -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=ON -D INSTALL_PYTHON_EXAMPLES=OFF -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=OFF ../opencv-4.10.0/ -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib-4.10.0/modules
     else
         cmake -D CMAKE_BUILD_TYPE=Release -D BUILD_EXAMPLES=OFF ../
     fi
@@ -192,7 +117,6 @@ if [ ! -d "$DIRECTORY" ]; then
 else
     echo "OpenCV is already installed"
 fi
-
 
 
 echo "______ROS2 Install_______"

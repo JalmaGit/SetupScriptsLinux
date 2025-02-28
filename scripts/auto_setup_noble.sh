@@ -10,51 +10,6 @@ echo "______Installing Required Tools_______"
 sudo apt update
 yes | sudo apt upgrade
 
-sudo apt install curl -y
-sudo apt install wget -y
-sudo apt install git -y
-sudo apt install build-essential -y
-sudo apt install unzip -y
-
-sudo apt-get install python3-dev -y python3-numpy -y python3-pip -y
-yes | sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
-yes | sudo apt-get install libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev
-yes | sudo apt-get install libgtk-3-dev
-yes | sudo apt-get install libpng-dev
-yes | sudo apt-get install libjpeg-dev
-yes | sudo apt-get install libopenexr-dev
-yes | sudo apt-get install libtiff-dev
-yes | sudo apt-get install libwebp-dev
-
-sudo apt install ninja-build -y
-
-sudo apt install gcc -y
-sudo apt install gcc-13 -y
-sudo apt install gcc-14 -y
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 1
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 2
-
-
-
-echo "______Folder Setup________"
-
-DIRECTORY=~/Documents/GitHub
-if [ ! -d "$DIRECTORY" ]; then
-    mkdir ~/Documents/GitHub
-else 
-    echo "Github folder already exists"
-fi
-
-DIRECTORY=~/Documents/Local
-if [ ! -d "$DIRECTORY" ]; then
-    mkdir ~/Documents/Local
-    mkdir ~/Documents/Local/PythonProjects
-    mkdir ~/Documents/Local/ros2_ws
-    mkdir ~/Documents/Local/ros2_ws/src
-else
-    echo "Local folder already exists"
-fi
-
 
 echo "______KiCad Install_______"
 
@@ -79,29 +34,35 @@ fi
 
 
 
+echo "______OpenCV Install________"
+DIRECTORY="~/Libs/opencv"
 
-echo "______CMake Install_______"
+if [ ! -d "$DIRECTORY" ]; then
+    mkdir ~/Libs/
+    mkdir ~/Libs/opencv
+    cd ~/Libs/opencv
+    
+    wget -O opencv.zip https://github.com/opencv/opencv/archive/refs/tags/4.10.0.zip
+    wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.10.0.zip
+    unzip opencv.zip
+    unzip opencv_contrib.zip
 
-if [ ! -x "$(command -v cmake)" ]; then
-    sudo apt-get update
-    sudo apt-get install ca-certificates gpg wget
+    mkdir -p build && cd build
 
-    test -f /usr/share/doc/kitware-archive-keyring/copyright ||
-    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+    if lspci | grep -qi nvidia; then
+        cmake -D WITH_CUDA=ON -D WITH_CUDNN=ON -D CUDNN_LIBRARY=/usr/lib/x86_64-linux-gnu/libcudnn.so.9.7.1 -D CUDNN_INCLUDE_DIR=/usr/include -D WITH_GSTREAMER=ON -D WITH_LIBV4L=ON -D CMAKE_BUILD_TYPE=Release -D  -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=ON -D INSTALL_PYTHON_EXAMPLES=OFF -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=OFF ../opencv-4.10.0/ -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib-4.10.0/modules
+    else
+        cmake -D CMAKE_BUILD_TYPE=Release -D BUILD_EXAMPLES=OFF ../
+    fi
 
-    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ noble main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
-    sudo apt-get update
+    make -j8
 
-    test -f /usr/share/doc/kitware-archive-keyring/copyright ||
-    sudo rm /usr/share/keyrings/kitware-archive-keyring.gpg
-
-    sudo apt-get install kitware-archive-keyring
-
-    yes | sudo apt-get install cmake
+    sudo make install
+    
+    cd ~/
 else
-    echo "cmake is already installed"
+    echo "OpenCV is already installed"
 fi
-
 
 
 echo "______Pycharm Setup_______"
