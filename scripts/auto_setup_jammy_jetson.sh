@@ -9,6 +9,16 @@ echo "______Installing Required Tools_______"
 
 sudo apt update
 sudo apt upgrade -y
+sudo apt install zlib1g -y
+
+echo >> ~/.bashrc
+cat << 'EOF' >> ~/.bashrc
+
+export PATH=/usr/local/cuda-12.8/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-12.8/lib64\
+                         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+EOF
+sudo apt-get -y install cudnn9-cuda-12
 
 
 echo "______Folder Setup________"
@@ -60,18 +70,18 @@ DIRECTORY="~/Libs/opencv"
 
 if [ ! -d "$DIRECTORY" ]; then
     mkdir ~/Libs/
-    cd ~/Libs
+    mkdir ~/Libs/opencv
+    cd ~/Libs/opencv
     
     wget -O opencv.zip https://github.com/opencv/opencv/archive/refs/tags/4.10.0.zip
+    wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.10.0.zip
     unzip opencv.zip
-    mv opencv-4.10.0/ opencv
-
-    cd opencv
+    unzip opencv_contrib.zip
 
     mkdir -p build && cd build
-    cmake -D CMAKE_BUILD_TYPE=Release -D BUILD_EXAMPLES=OFF ../
+    cmake -D WITH_CUDA=ON -D WITH_CUDNN=ON -D CUDNN_LIBRARY=/usr/lib/aarch64-linux-gnu/libcudnn.so.9.7.1 -D CUDNN_INCLUDE_DIR=/usr/include -D WITH_GSTREAMER=ON -D WITH_LIBV4L=ON -D CMAKE_BUILD_TYPE=Release -D  -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=ON -D INSTALL_PYTHON_EXAMPLES=OFF -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=OFF ../opencv-4.10.0/ -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib-4.10.0/modules
 
-    make -j6
+    make -j4
 
     sudo make install
     
@@ -131,18 +141,6 @@ if [ ! -d "$DIRECTORY" ]; then
     cd ~/
 else
     echo "vcpkg already installed"
-fi
-
-
-
-echo "______RealSense D435 Setup________"
-if [ ! -x "$(command -v realsense-viewer)" ]; then
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
-    sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
-    sudo apt-get install librealsense2-utils -y
-    sudo apt-get install librealsense2-dev -y
-else
-    echo "RealSense is already installed"
 fi
 
 
