@@ -21,50 +21,6 @@ EOF
 sudo apt-get -y install cudnn9-cuda-12
 
 
-echo "______Folder Setup________"
-
-DIRECTORY=~/Documents/GitHub
-if [ ! -d "$DIRECTORY" ]; then
-    mkdir ~/Documents/GitHub
-else 
-    echo "Github folder already exists"
-fi
-
-DIRECTORY=~/Documents/Local
-if [ ! -d "$DIRECTORY" ]; then
-    mkdir ~/Documents/Local
-    mkdir ~/Documents/Local/PythonProjects
-    mkdir ~/Documents/Local/ros2_ws
-    mkdir ~/Documents/Local/ros2_ws/src
-else
-    echo "Local folder already exists"
-fi
-
-
-echo "______CMake Install_______"
-
-if [ ! -x "$(command -v cmake)" ]; then
-    sudo apt-get update
-    sudo apt-get install ca-certificates gpg wget
-
-    test -f /usr/share/doc/kitware-archive-keyring/copyright ||
-    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-
-    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
-    sudo apt-get update
-
-    test -f /usr/share/doc/kitware-archive-keyring/copyright ||
-    sudo rm /usr/share/keyrings/kitware-archive-keyring.gpg
-
-    sudo apt-get install kitware-archive-keyring
-
-    yes | sudo apt-get install cmake
-else
-    echo "cmake is already installed"
-fi
-
-
-
 echo "______OpenCV Install________"
 DIRECTORY="~/Libs/opencv"
 
@@ -79,7 +35,7 @@ if [ ! -d "$DIRECTORY" ]; then
     unzip opencv_contrib.zip
 
     mkdir -p build && cd build
-    cmake -D WITH_CUDA=ON -D WITH_CUDNN=ON -D CUDNN_LIBRARY=/usr/lib/aarch64-linux-gnu/libcudnn.so.9.7.1 -D CUDNN_INCLUDE_DIR=/usr/include -D WITH_GSTREAMER=ON -D WITH_LIBV4L=ON -D CMAKE_BUILD_TYPE=Release -D  -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=ON -D INSTALL_PYTHON_EXAMPLES=OFF -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=OFF ../opencv-4.10.0/ -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib-4.10.0/modules
+    cmake -D WITH_CUDA=ON -D WITH_CUDNN=ON -D CUDNN_LIBRARY=/usr/lib/aarch64-linux-gnu/libcudnn.so.9.7.1 -D CUDNN_INCLUDE_DIR=/usr/include -D WITH_GSTREAMER=ON -D WITH_LIBV4L=ON -D CMAKE_BUILD_TYPE=Release -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=ON -D INSTALL_PYTHON_EXAMPLES=OFF -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=OFF ../opencv-4.10.0/ -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib-4.10.0/modules
 
     make -j4
 
