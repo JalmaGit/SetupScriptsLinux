@@ -75,3 +75,17 @@ if [ ! -x "$(command -v cmake)" ]; then
 else
     echo "cmake is already installed"
 fi
+
+echo "______Nvidia Cuda______"
+    sudo ubuntu-drivers install
+    sudo apt-key del 7fa2af80
+    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/arm64/cuda-keyring_1.1-1_all.deb
+    sudo dpkg -i cuda-keyring_1.1-1_all.deb
+
+    sudo apt-get update -y
+
+    sudo apt-get install cuda-toolkit -y
+    sudo apt-get install nvidia-gds -y
+
+    sudo reboot
+        
