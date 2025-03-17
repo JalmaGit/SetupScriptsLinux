@@ -41,18 +41,33 @@ else
     echo "Github folder already exists"
 fi
 
+echo "______Folder Setup________"
+
+DIRECTORY=~/Documents/GitHub
+if [ ! -d "$DIRECTORY" ]; then
+    mkdir ~/Documents/GitHub
+else 
+    echo "Github folder already exists"
+fi
+
 DIRECTORY=~/Documents/Local
 if [ ! -d "$DIRECTORY" ]; then
     mkdir ~/Documents/Local
     mkdir ~/Documents/Local/PythonProjects
-    mkdir ~/Documents/Local/ros2_3rdparty_ws
-    mkdir ~/Documents/Local/ros2_3rdparty_ws
-    mkdir ~/Documents/Local/ros2_ws
-    mkdir ~/Documents/Local/ros2_ws/src
 else
     echo "Local folder already exists"
 fi
 
+DIRECTORY=~/Workspaces
+if [ ! -d "$DIRECTORY" ]; then
+    mkdir ~/Workspaces
+    mkdir ~/Workspaces/ros2_ws
+    mkdir ~/Workspaces/ros2_ws/src
+    mkdir ~/Workspaces/3rdparty_ws
+    mkdir ~/Workspaces/3rdparty_ws/src
+else
+    echo "Workspaces already exists"
+fi
 
 echo "______CMake Install_______"
 

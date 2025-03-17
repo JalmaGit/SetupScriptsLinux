@@ -34,6 +34,8 @@ sudo apt install gcc -y
 
 echo "______Folder Setup________"
 
+echo "______Folder Setup________"
+
 DIRECTORY=~/Documents/GitHub
 if [ ! -d "$DIRECTORY" ]; then
     mkdir ~/Documents/GitHub
@@ -45,10 +47,19 @@ DIRECTORY=~/Documents/Local
 if [ ! -d "$DIRECTORY" ]; then
     mkdir ~/Documents/Local
     mkdir ~/Documents/Local/PythonProjects
-    mkdir ~/Documents/Local/ros2_ws
-    mkdir ~/Documents/Local/ros2_ws/src
 else
     echo "Local folder already exists"
+fi
+
+DIRECTORY=~/Workspaces
+if [ ! -d "$DIRECTORY" ]; then
+    mkdir ~/Workspaces
+    mkdir ~/Workspaces/ros2_ws
+    mkdir ~/Workspaces/ros2_ws/src
+    mkdir ~/Workspaces/3rdparty_ws
+    mkdir ~/Workspaces/3rdparty_ws/src
+else
+    echo "Workspaces Allready Exists"
 fi
 
 echo "______CMake Install_______"
