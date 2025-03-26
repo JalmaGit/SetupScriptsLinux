@@ -23,7 +23,7 @@ if [ "$selection" = "1" ]; then
     fi
 
     if ! [ -x "$(command -v kicad)" ]; then
-        yes '' | sudo add-apt-repository ppa:kicad/kicad-8.0-releases
+        yes '' | sudo add-apt-repository ppa:kicad/kicad-9.0-releases
         sudo apt update
         yes | sudo apt install kicad
     else
