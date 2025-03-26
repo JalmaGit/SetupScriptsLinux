@@ -50,7 +50,7 @@ if [ ! -d "$DIRECTORY" ]; then
     mkdir -p build && cd build
 
     if lspci | grep -qi nvidia; then
-        cmake -D WITH_CUDA=ON -D WITH_CUDNN=ON -D CUDNN_LIBRARY=/usr/lib/x86_64-linux-gnu/libcudnn.so.9.7.1 -D CUDNN_INCLUDE_DIR=/usr/include -D WITH_GSTREAMER=ON -D WITH_LIBV4L=ON -D CMAKE_BUILD_TYPE=Release -D  -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=ON -D INSTALL_PYTHON_EXAMPLES=OFF -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=OFF ../opencv-4.10.0/ -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib-4.10.0/modules
+        cmake -D WITH_CUDA=ON -D WITH_CUDNN=ON -D CUDNN_LIBRARY=/usr/lib/x86_64-linux-gnu/libcudnn.so.9.7.1 -D CUDNN_INCLUDE_DIR=/usr/include -D WITH_GSTREAMER=ON -D WITH_LIBV4L=ON -D CMAKE_BUILD_TYPE=Release -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=ON -D INSTALL_PYTHON_EXAMPLES=OFF -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=OFF ../opencv-4.10.0/ -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib-4.10.0/modules
     else
         cmake -D CMAKE_BUILD_TYPE=Release -D BUILD_EXAMPLES=OFF ../
     fi
